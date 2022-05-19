@@ -229,35 +229,35 @@ Expected Output
 print(employee[employee['salary_usd'] == 5000])
 
 # 13)
-Return the food DataFrame, previewed below, sorted by the index value item in descending order.
+# Return the food DataFrame, previewed below, sorted by the index value item in descending order.
 
-               energy  protein  carbohydrate
-item                                        
-waffles           200     4.29         35.71
-tacos             180    10.94         23.44
-lasagne           188    11.76         10.59
-croissant         343     5.71         58.57
-chicken salad     110     5.00          8.00
-thai curry        106     3.18         11.66
+#                energy  protein  carbohydrate
+# item                                        
+# waffles           200     4.29         35.71
+# tacos             180    10.94         23.44
+# lasagne           188    11.76         10.59
+# croissant         343     5.71         58.57
+# chicken salad     110     5.00          8.00
+# thai curry        106     3.18         11.66
 
-Expected Output
-               energy  protein  carbohydrate
-item                                        
-waffles           200     4.29         35.71
-thai curry        106     3.18         11.66
-tacos             180    10.94         23.44
-lasagne           188    11.76         10.59
-croissant         343     5.71         58.57
-chicken salad     110     5.00          8.00
+# Expected Output
+#                energy  protein  carbohydrate
+# item                                        
+# waffles           200     4.29         35.71
+# thai curry        106     3.18         11.66
+# tacos             180    10.94         23.44
+# lasagne           188    11.76         10.59
+# croissant         343     5.71         58.57
+# chicken salad     110     5.00          8.00
 
 # Complete the code to return the output
 print(food.sort_index(level = 'item', ascending=False))
 
 # 14)
-Calculate the inter-quartile range of the age of 100 customers who have recently bought products from your website. age is a numpy array.
+# Calculate the inter-quartile range of the age of 100 customers who have recently bought products from your website. age is a numpy array.
 
-Expected Output
-27.0
+# Expected Output
+# 27.0
 
 # Complete the code to return the output
 from scipy import stats
@@ -265,3 +265,114 @@ from scipy import stats
 iqr_age = stats.iqr(age)
 
 print(iqr_age)
+
+
+# 15) 
+# Calculate the inter-quartile range of the age of 100 customers who have recently bought products from your website.
+
+# Expected Output
+# 27.0
+
+# Complete the code to return the output
+import pandas as pd 
+
+Q1 = df['age'].quantile(0.25)
+Q3 = df['age'].quantile(0.75)
+
+print(Q3-Q1)
+
+# 16) 
+# Two of the columns in the heart DataFrame have very long names. Rename the columns using the provided dictionary.
+
+# Expected Output
+#    slope  fbs
+# 0      1    0
+# 1      2    0
+# 2      1    0
+# 3      1    0
+# 4      3    0
+
+# Complete the code to return the output
+import pandas as pd
+
+column_names = {
+	'slope_of_peak_exercise_st_segment': 'slope',
+	'fasting_blood_sugar_gt_120_mg_per_dl': 'fbs' 
+}
+
+# heart_clean = heart.columns(val=column_names) --> Wrong !
+heart_clean = heart.rename(columns=column_names)
+print(heart_clean.head())
+
+# 17)
+# Using the food DataFrame, previewed below, print the rows where protein per 100g is between, but not including, 4 and 10.
+
+#                energy  protein  carbohydrate
+# item                                        
+# waffles           200     4.29         35.71
+# tacos             180    10.94         23.44
+# lasagne           188    11.76         10.59
+# croissant         343     5.71         58.57
+# chicken salad     110     5.00          8.00
+# thai curry        106     3.18         11.66
+
+# Expected Output
+#                energy  protein  carbohydrate
+# item                                        
+# waffles           200     4.29         35.71
+# croissant         343     5.71         58.57
+# chicken salad     110     5.00          8.00
+
+# Complete the code to return the output
+protein = food[(food['protein'] > 4) & (food['protein'] < 10)]
+
+print(protein)
+
+# 18)
+# Complete the code to return a pivot table of the Pandas DataFrame df below. The new table should aggregate the number of medals won, grouped by team on the index and with separate columns for each medal type.
+
+#     medal  n team
+# 0    Gold  1    A
+# 1  Silver  1    A
+# 2  Bronze  1    B
+# 3    Gold  1    B
+# 4  Silver  1    B
+# 5  Silver  1    A
+
+# Expected Output
+# medal  Bronze  Gold  Silver
+# team                       
+# A         NaN   1.0     2.0
+# B         1.0   1.0     1.0
+
+# Complete the code to return the output
+import numpy as np
+import pandas as pd
+
+print(df.pivot_table(
+  values = 'n',
+  index = 'team',
+  columns = 'medal',
+  aggfunc = np.sum
+))
+
+# 19)
+# The wine DataFrame provides information on wines stocked by an online retailer. Print a count of the number of wines for each country.
+
+#                      type    country  price  rating
+# style                                               
+# alvarinho           white   portugal  18.99     4.2
+# blanc de blanc  sparkling     france    NaN     3.8
+# cabernet              red  argentina  14.90     4.0
+
+# Expected Output
+# italy        3
+# germany      2
+# argentina    1
+# Name: country, dtype: int64
+          
+# Complete the code to return the output
+#  count_by_country = wine['country'].sort_values() --> Wrong !
+count_by_country = wine['country'].value_counts()
+
+print(count_by_country)
